@@ -1,0 +1,251 @@
+{
+	"info": {
+		"_postman_id": "b6f38006-0533-4538-8af1-12122d10d7c1",
+		"name": "Automation Library Project",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "19516842"
+	},
+	"item": [
+		{
+			"name": "AddBook",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"let response=pm.response.json()\r",
+							"\r",
+							"pm.test(\"Insert Query\",function(){\r",
+							"    pm.expect(response.Msg).to.eql(\"successfully added\")\r",
+							"})\r",
+							"\r",
+							"pm.collectionVariables.set(\"BookID\",response.ID)"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"let randBookName=pm.variables.replaceIn('{{$randomJobArea}}');\r",
+							"let randBookIsbn=pm.variables.replaceIn('{{$randomInt}}');\r",
+							"let randBookAsile=pm.variables.replaceIn('{{$randomBankAccount}}');\r",
+							"let randBookAuthor=pm.variables.replaceIn('{{$randomFullName}}');\r",
+							"\r",
+							"pm.collectionVariables.set(\"BookName\",randBookName)\r",
+							"pm.collectionVariables.set(\"BookIsbn\",randBookIsbn)\r",
+							"pm.collectionVariables.set(\"BookAisle\",randBookAsile)\r",
+							"pm.collectionVariables.set(\"BookAuthor\",randBookAuthor)"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "\r\n{\r\n\"name\":\"{{BookName}}\",\r\n\"isbn\":\"{{BookIsbn}}\",\r\n\"aisle\":\"{{BookAisle}}\",\r\n\"author\":\"{{BookAuthor}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://rahulshettyacademy.com/Library/Addbook.php",
+					"protocol": "https",
+					"host": [
+						"rahulshettyacademy",
+						"com"
+					],
+					"path": [
+						"Library",
+						"Addbook.php"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "SelectBook",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let response= pm.response.json()\r",
+							"\r",
+							"pm.test(\"Select query\",function(){\r",
+							"    pm.expect(response[0]).to.have.property(\"isbn\")\r",
+							"})\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://rahulshettyacademy.com/Library/GetBook.php?ID={{BookID}}",
+					"protocol": "https",
+					"host": [
+						"rahulshettyacademy",
+						"com"
+					],
+					"path": [
+						"Library",
+						"GetBook.php"
+					],
+					"query": [
+						{
+							"key": "ID",
+							"value": "{{BookID}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DeleteBook",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let response=pm.response.json()\r",
+							"\r",
+							"pm.test(\"Delete Query\",function(){\r",
+							"    pm.expect(response.msg).to.eql(\"book is successfully deleted\")\r",
+							"})"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"packages": {},
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"ID\" : \"{{BookID}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://rahulshettyacademy.com/Library/DeleteBook.php",
+					"protocol": "https",
+					"host": [
+						"rahulshettyacademy",
+						"com"
+					],
+					"path": [
+						"Library",
+						"DeleteBook.php"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "BookName",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "bookIsbn",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "bookAisle",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "bookAuthor",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "bookID",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "randBookName",
+			"value": ""
+		},
+		{
+			"key": "BookIsbn",
+			"value": ""
+		},
+		{
+			"key": "BookAisle",
+			"value": ""
+		},
+		{
+			"key": "BookAuthor",
+			"value": ""
+		},
+		{
+			"key": "BookID",
+			"value": ""
+		}
+	]
+}
